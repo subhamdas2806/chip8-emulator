@@ -1,0 +1,66 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "Build with GCC 14.2.6",
+            "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+            "args": [
+                "-g",
+                "-std=c++20",
+                "${file}",
+                "-o",
+                "${fileDirname}\\rooster.exe"
+            ],
+            "options": {
+                "cwd": "C:\\msys64\\ucrt64\\bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "detail": "compiler: C:\\msys64\\ucrt64\\bin\\g++.exe"
+        },
+        {
+            "type": "cppbuild",
+            "label": "Build with Clang 19.1.7",
+            "command": "C:\\Program Files\\LLVM\\clang+llvm-19.1.7-x86_64-pc-windows-msvc\\bin\\clang++.exe",
+            "args": [
+                "-g",
+                "-std=c++20",
+                "${file}",
+                "-o",
+                "${fileDirname}\\rooster.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "detail": "compiler: C:\\Program Files\\LLVM\\clang+llvm-19.1.7-x86_64-pc-windows-msvc\\bin\\clang++.exe"
+        },
+        {
+            "type": "cppbuild",
+            "label": "Build with MSVC",
+            "command": "cl.exe",
+            "args": [
+                "/Zi",
+                "/std:c++latest",
+                "/EHsc",
+                "/Fe:",
+                "${fileDirname}\\rooster.exe",
+                "${file}",	
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "detail": "compiler: C:\\Program Files\\LLVM\\clang+llvm-19.1.7-x86_64-pc-windows-msvc\\bin\\clang-cl.exe"
+        }
+    ]
+}
