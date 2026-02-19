@@ -1,6 +1,4 @@
 #include "chip8.h"
-#include <fstream>
-using namespace std;
 
 const unsigned int START_ADDRESS = 0x200;
 
@@ -25,8 +23,19 @@ uint8_t fontset[FONTSET_SIZE] =
 	0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
-Chip8::Chip8(){
+const unsigned int FONTSET_START_ADDRESS = 0x50;
+
+Chip8::Chip8()
+    : randGen(chrono::system_clock::now().time_since_epoch().count())
+{
     pc = START_ADDRESS;
+
+    randByte = uniform_int_distribution<uint8_t>(0,255);
+
+    for (unsigned int i = 0; i < FONTSET_SIZE; ++i)
+    {
+        memory[FONTSET_START_ADDRESS+i] = fontset[i];
+    }
 }
 
 
