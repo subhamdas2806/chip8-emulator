@@ -3,11 +3,18 @@
 #include <random>
 #include <chrono>
 #include <fstream>
+#include <cstring>
 using namespace std;
 
 class Chip8
 {
-    public:
+public:
+
+    Chip8();
+
+    void OP_00E0();
+
+    void OP_00EE();
 
     void LoadROM(char const* filename);
         uint8_t registers[16]{};

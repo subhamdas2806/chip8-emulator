@@ -1,4 +1,5 @@
 #include "chip8.h"
+using namespace std;
 
 const unsigned int START_ADDRESS = 0x200;
 
@@ -38,6 +39,16 @@ Chip8::Chip8()
     }
 }
 
+void Chip8::OP_00E0() //00E0 means  clear screen(not a build in function)
+{
+    memset(video,0,sizeof(video)); //sets all puxels to 0 that is black screen
+}
+
+void Chip8::OP_00EE() //00EE means return to subroutine
+{
+    --sp;  //Move the bookmark pointer back one step.Because earlier, when you jumped, stack pointer moved forward.Now you're undoing that. 
+    pc = stack[sp]; //Go back to the saved location. Now CPU continues from there.
+}
 
 void  Chip8::LoadROM(char const* filename)
 {
