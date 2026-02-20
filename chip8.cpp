@@ -50,6 +50,88 @@ void Chip8::OP_00EE() //00EE means return to subroutine
     pc = stack[sp]; //Go back to the saved location. Now CPU continues from there.
 }
 
+void Chip8::OP_2nnn() // save the 
+{
+    uint16_t address = opcode & 0x0FFFu; // gets the address to go to
+    stack[sp] = pc; // saves curent location
+    ++sp; //moves bookmark forward
+    pc = address; // jumps to new location
+}
+
+void Chip8::OP_3xkk() //if shi then skips
+{
+    uint8_t Vx =  (opcode & 0x0F00u) >> 8u; // selects the registor to chec
+    uint8_t byte = opcode & 0x00FFu; // this gets the number to ccompare
+    if (registers[Vx] == byte)// compare
+    {
+        pc +=2; //if yes then increments by 2
+    }
+}
+
+void Chip8::OP_4xkk()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t byte = opcode & 0x00FFu;
+
+	if (registers[Vx] |= byte)
+	{
+		pc += 2;
+	}
+}
+
+void Chip8::OP_5xkk()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+
+	if (registers[Vx] == registers[Vy])
+	{
+		pc += 2;
+	}
+}
+
+void Chip8::OP_6xkk()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t byte = opcode & 0x00FFu;
+    registers[Vx] = byte;
+}
+
+void Chip8::OP_7xkk()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t byte = opcode & 0x00FFu;
+    registers[Vx] += byte;
+}
+
+void Chip8::OP_8xy0()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+    registers[Vx] = registers[Vy];
+}
+
+void Chip8::OP_8xy1()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+    registers[Vx] |= registers[Vy];
+}
+
+void Chip8::OP_8xy2()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+    registers[Vx] &= registers[Vy];
+}
+
+void Chip8::OP_8xy3()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+    registers[Vx] &= registers[Vy];
+}
+
 void  Chip8::LoadROM(char const* filename)
 {
     ifstream file(filename,ios::binary | ios::ate); //put the pointer at the end of the file and ate means start at the end
