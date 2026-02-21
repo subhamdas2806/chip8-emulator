@@ -26,6 +26,15 @@ public:
     void OP_8xy1();
     void OP_8xy2();
     void OP_8xy3();
+    void OP_8xy4();
+    void OP_8xy5();
+    void OP_8xy6();
+    void OP_8xy7();
+    void OP_8xyE();
+    void OP_9xy0();
+    void OP_Annn();
+    void OP_Bnnn();
+    void OP_Cxkk();
 
     void LoadROM(char const* filename);
         uint8_t registers[16]{};
