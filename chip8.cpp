@@ -355,6 +355,65 @@ void Chip8::OP_Fx0A()
 	}
 }
 
+void Chip8::OP_Fx15()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	delaytimer = registers[Vx]; //sets the delaytimer 
+}
+
+void Chip8::OP_Fx18()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	soundtimer = registers[Vx]; // sets the soundtimer 
+}
+
+void Chip8::OP_Fx1E()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	index += registers[Vx]; //adds up the previous registers
+}
+
+void Chip8::OP_Fx29()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t digit = registers[Vx];
+	index =  FONTSET_START_ADDRESS + (5 * digit); // set index to the memory address of the sprite for the digit in Vx(idek what that means honestly)
+}
+
+void Chip8::OP_Fx55()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t  value = registers[Vx];
+
+	memory[index +2] = value % 10;
+	value /= 10;
+
+	memory[index +1] = value % 10;
+	value /= 10;
+
+	memory[index] = value % 10;
+}
+
+void Chip8::OP_Fx55()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+	for (uint8_t i = 0; i <= Vx; ++i)
+	{
+		memory[index + i] = registers[i]; //Store registers V0 through Vx in memory starting at location I
+	}
+}
+
+void Chip8::OP_Fx65()
+{
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+	for (uint8_t i = 0; i <= Vx; ++i)
+	{
+		registers[i] = memory[index + i]; //Store registers V0 through Vx in memory starting at location I
+	}
+}
+
 void  Chip8::LoadROM(char const* filename)
 {
     ifstream file(filename,ios::binary | ios::ate); //put the pointer at the end of the file and ate means start at the end
