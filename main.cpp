@@ -3,6 +3,8 @@
 #include "platform.h"
 #include "chip8.h"
 
+#undef main
+
 int main(int argc, char** argv)
 {
 	if (argc != 4)
