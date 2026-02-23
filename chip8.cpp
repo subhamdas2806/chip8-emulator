@@ -24,6 +24,155 @@ uint8_t fontset[FONTSET_SIZE] =
 	0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
+// CYcle
+void Chip8::Cycle()
+{
+	opcode = (memory[pc] << 8u) | memory[pc + 1];
+
+	pc +=2;
+
+	DecodeAndExecute();
+
+	if(delayTimer > 0)
+		--delayTimer;
+
+	if (soundTimer > 0)
+		--soundTimer;
+}
+
+//SWITCH CASES AAAAAH
+void Chip8::DecodeAndExecute()
+{
+	 switch(opcode & 0xF000)
+	 {
+		case 0x0000:
+			switch(opcode & 0x000F)
+			{
+				case 0x0000:
+					OP_00E0();
+					break;
+				case 0x000E:
+					OP_00EE();
+					break;
+				default:
+					break;
+			}break;
+
+		case 0x1000:
+			OP_1nnn();
+			break;
+		case 0x2000:
+			OP_2nnn();
+			break;
+		case 0x3000:
+			OP_3xkk();
+			break;
+		case 0x4000:
+			OP_4xkk();
+			break;
+		case 0x5000:
+			OP_5xy0();
+			break;
+		case 0x6000:
+			OP_6xkk();
+			break;
+		case 0x7000:
+			OP_7xkk();
+			break;
+		case 0x8000:
+		switch (opcode & 0x000F)
+			{
+				case 0x0000:
+					OP_8xy0();
+					break;
+				case 0x0001:
+					OP_8xy1();
+					break;
+				case 0x0002:
+					OP_8xy2();
+					break;
+				case 0x0003:
+					OP_8xy3();
+					break;
+				case 0x0004:
+					OP_8xy4();
+					break;
+				case 0x0005:
+					OP_8xy5();
+					break;
+				case 0x0006:
+					OP_8xy6();
+					break;
+				case 0x0007:
+					OP_8xy7();
+					break;
+				case 0x000E:
+					OP_8xyE();
+					break;
+			}break;
+
+		case 0x9000:
+	 		OP_9xy0();
+			break;
+		case 0xA000:
+	 		OP_Annn();
+			break;
+		case 0xB000:
+	 		OP_Bnnn();
+			break;
+		case 0xC000:
+	 		OP_Cxkk();
+			break;
+		case 0xD000:
+	 		OP_Dxyn();
+			break;
+		case 0xE000:
+	 		switch(opcode & 0x00FF)
+			{
+				case 0x009E:
+					OP_Ex9E();
+					break;
+				case 0x00A1:
+					OP_ExA1();
+					break;
+			}break;
+
+		case 0xF000:
+			switch(opcode & 0x00FF)
+			{
+				case 0x0007:
+					OP_Fx07();
+					break;
+				case 0x000A:
+					OP_Fx0A();
+					break;
+				case 0x0015:
+					OP_Fx15();
+					break;
+				case 0x0018:
+					OP_Fx18();
+					break;
+				case 0x001E:
+					OP_Fx1E();
+					break;
+				case 0x0029:
+					OP_Fx29();
+					break;
+				case 0x0033:
+					OP_Fx33();
+					break;
+				case 0x0055:
+					OP_Fx55();
+					break;
+				case 0x0065:
+					OP_Fx65();
+					break;
+			}break;
+
+	 }
+	 	
+}
+
 const unsigned int FONTSET_START_ADDRESS = 0x50;
 
 Chip8::Chip8()
@@ -39,6 +188,7 @@ Chip8::Chip8()
     }
 }
 
+
 //uint8_t means unsigned 8bit integer
 
 void Chip8::OP_00E0() //00E0 means  clear screen(not a build in function)
@@ -50,6 +200,12 @@ void Chip8::OP_00EE() //00EE means return to subroutine
 {
     --sp;  //Move the bookmark pointer back one step.Because earlier, when you jumped, stack pointer moved forward.Now you're undoing that. 
     pc = stack[sp]; //Go back to the saved location. Now CPU continues from there.
+}
+
+void Chip8::OP_1nnn()
+{
+    uint16_t address = opcode & 0x0FFFu;
+    pc = address;
 }
 
 void Chip8::OP_2nnn() // save the bookmark location
@@ -84,7 +240,7 @@ void Chip8::OP_4xkk()
 void Chip8::OP_5xkk()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
 
 	if (registers[Vx] == registers[Vy])
 	{
@@ -109,35 +265,35 @@ void Chip8::OP_7xkk()
 void Chip8::OP_8xy0()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
     registers[Vx] = registers[Vy];
 }
 
 void Chip8::OP_8xy1()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
     registers[Vx] |= registers[Vy];
 }
 
 void Chip8::OP_8xy2()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
     registers[Vx] &= registers[Vy];
 }
 
 void Chip8::OP_8xy3()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
-    registers[Vx] &= registers[Vy];
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+    registers[Vx] ^= registers[Vy];
 }
 
 void Chip8::OP_8xy4()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
     uint8_t sum = registers[Vx] + registers[Vy];
     if (sum > 255U)
     {
@@ -153,7 +309,7 @@ void Chip8::OP_8xy4()
 void Chip8::OP_8xy5()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
     if (registers[Vx] > registers[Vy])
     {
         registers[0xF] = 1;
@@ -175,7 +331,7 @@ void Chip8::OP_8xy6()
 void Chip8::OP_8xy7()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
     if (registers[Vy] > registers[Vx])
     {
         registers[0xF] = 1;
@@ -197,7 +353,7 @@ void Chip8::OP_8xyE()
 void Chip8::OP_9xy0()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-	uint8_t Vy = (opcode & 0x00FFu) >> 4u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
     if (registers[Vx] != registers[Vy])
     {
         pc +=2;
@@ -226,11 +382,11 @@ void Chip8::OP_Cxkk()
 void Chip8::OP_Dxyn()
 {
     uint8_t Vx = (opcode & 0x0F00u) >> 8u; //extract x pos
-	uint8_t Vy = (opcode & 0x00FFu) >> 4u; //extract y pos
-    uint8_t height = opcode & 0x000F0u; //extract height
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u; //extract y pos
+    uint8_t height = opcode & 0x000Fu; //extract height
 
     uint8_t xPos = registers[Vx] % VIDEO_WIDTH;
-    uint8_t yPos =  registers[Vx] % VIDEO_HEIGHT; // "%" prevents to spill out the screen 
+    uint8_t yPos = registers[Vy] % VIDEO_HEIGHT; // "%" prevents to spill out the screen 
 
     registers[0xF] = 0; // collision happend or not(0 means didnt)
 
@@ -358,7 +514,7 @@ void Chip8::OP_Fx0A()
 void Chip8::OP_Fx15()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-	delaytimer = registers[Vx]; //sets the delaytimer 
+	delayTimer = registers[Vx]; //sets the delayTimer 
 }
 
 void Chip8::OP_Fx18()
@@ -380,7 +536,7 @@ void Chip8::OP_Fx29()
 	index =  FONTSET_START_ADDRESS + (5 * digit); // set index to the memory address of the sprite for the digit in Vx(idek what that means honestly)
 }
 
-void Chip8::OP_Fx55()
+void Chip8::OP_Fx33()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 	uint8_t  value = registers[Vx];
@@ -413,6 +569,8 @@ void Chip8::OP_Fx65()
 		registers[i] = memory[index + i]; //Store registers V0 through Vx in memory starting at location I
 	}
 }
+
+
 
 void  Chip8::LoadROM(char const* filename)
 {
