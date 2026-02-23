@@ -8,9 +8,13 @@
             "args": [
                 "-g",
                 "-std=c++20",
-                "${file}",
+                "${workspaceFolder}\\*.cpp",
                 "-o",
-                "${fileDirname}\\rooster.exe"
+                "${fileDirname}\\rooster.exe",
+                "-I", "C:\\SDL2\\include\\SDL2",
+                "-L", "C:\\SDL2\\lib",
+                "-lSDL2",
+                "-lSDL2main"
             ],
             "options": {
                 "cwd": "C:\\msys64\\ucrt64\\bin"
@@ -20,47 +24,6 @@
             ],
             "group": "build",
             "detail": "compiler: C:\\msys64\\ucrt64\\bin\\g++.exe"
-        },
-        {
-            "type": "cppbuild",
-            "label": "Build with Clang 19.1.7",
-            "command": "C:\\Program Files\\LLVM\\clang+llvm-19.1.7-x86_64-pc-windows-msvc\\bin\\clang++.exe",
-            "args": [
-                "-g",
-                "-std=c++20",
-                "${file}",
-                "-o",
-                "${fileDirname}\\rooster.exe"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": "build",
-            "detail": "compiler: C:\\Program Files\\LLVM\\clang+llvm-19.1.7-x86_64-pc-windows-msvc\\bin\\clang++.exe"
-        },
-        {
-            "type": "cppbuild",
-            "label": "Build with MSVC",
-            "command": "cl.exe",
-            "args": [
-                "/Zi",
-                "/std:c++latest",
-                "/EHsc",
-                "/Fe:",
-                "${fileDirname}\\rooster.exe",
-                "${file}",	
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": "build",
-            "detail": "compiler: C:\\Program Files\\LLVM\\clang+llvm-19.1.7-x86_64-pc-windows-msvc\\bin\\clang-cl.exe"
         }
     ]
 }

@@ -1,9 +1,6 @@
 #include "chip8.h"
 using namespace std;
 
-const unsigned int START_ADDRESS = 0x200;
-
-const unsigned int FONTSET_SIZE = 80;
 uint8_t fontset[FONTSET_SIZE] = 
 {
 	0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
@@ -173,8 +170,6 @@ void Chip8::DecodeAndExecute()
 	 	
 }
 
-const unsigned int FONTSET_START_ADDRESS = 0x50;
-
 Chip8::Chip8()
     : randGen(chrono::system_clock::now().time_since_epoch().count())
 {
@@ -237,7 +232,7 @@ void Chip8::OP_4xkk()
 	}
 }
 
-void Chip8::OP_5xkk()
+void Chip8::OP_5xy0()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
@@ -294,7 +289,7 @@ void Chip8::OP_8xy4()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
-    uint8_t sum = registers[Vx] + registers[Vy];
+    uint16_t sum = registers[Vx] + registers[Vy];
     if (sum > 255U)
     {
         registers[0xF] = 1;
