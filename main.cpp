@@ -6,12 +6,18 @@
 #undef main
 
 int main(int argc, char** argv)
+
 {
+
+    std::cout << "Starting..." << std::endl;
+
 	if (argc != 4)
 	{
 		std::cerr << "Usage: " << argv[0] << " <Scale> <Delay> <ROM>\n";
 		std::exit(EXIT_FAILURE);
 	}
+
+    std::cout << "Args ok" << std::endl;
 
 	int videoScale = std::stoi(argv[1]);
 	int cycleDelay = std::stoi(argv[2]);
