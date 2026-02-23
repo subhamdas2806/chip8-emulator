@@ -43,8 +43,8 @@ public:
         uint16_t pc{};
         uint16_t stack[16];
         uint8_t sp{};
-        uint8_t delaytimer{};
-        uint8_t soundtimer{};
+        uint8_t delayTimer{};
+        uint8_t soundTimer{};
         uint8_t keypad[16]{};
         uint32_t video[64*32]{};
         uint16_t opcode;

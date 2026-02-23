@@ -431,7 +431,7 @@ void Chip8::OP_ExA1()
     }
 }
 
-void Chip8::OP_Ex07()
+void Chip8::OP_Fx07()
 {
     uint8_t  Vx = (opcode & 0x0F00u) >> 8u;
     registers[Vx] = delayTimer;
@@ -520,7 +520,7 @@ void Chip8::OP_Fx15()
 void Chip8::OP_Fx18()
 {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-	soundtimer = registers[Vx]; // sets the soundtimer 
+	soundTimer = registers[Vx]; // sets the soundTimer 
 }
 
 void Chip8::OP_Fx1E()
