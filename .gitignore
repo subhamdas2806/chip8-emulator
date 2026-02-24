@@ -1,0 +1,17 @@
+# executables
+*.exe
+
+# debug files
+*.pdb
+*.ilk
+
+# dll
+*.dll
+
+# vscode / visual studio
+.vscode/
+.vs/
+
+# build folders
+build/
+bin/
