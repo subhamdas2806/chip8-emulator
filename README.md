@@ -54,7 +54,7 @@ This emulator replicates the original CHIP-8 virtual machine, including:
 
 Example:
 
-![Test ROM}(images/test_rom.png)
+![Test ROM](images/test_rom.png)
 
 ---
 
