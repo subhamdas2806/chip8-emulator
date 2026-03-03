@@ -1,5 +1,12 @@
 # CHIP-8 Emulator
 
+![C++](https://img.shields.io/badge/C++-00599C?style=flat&logo=cplusplus&logoColor=white)
+![SDL2](https://img.shields.io/badge/SDL2-1D4E89?style=flat&logo=steam&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-informational?style=flat)
+![Status](https://img.shields.io/badge/Status-Working-brightgreen?style=flat)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat)
+![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=flat&logo=github)
+
 A cross-platform **CHIP-8 emulator written in C++ using SDL2**, capable of running classic CHIP-8 games with accurate instruction emulation, graphics rendering, input handling, and timers.
 
 This project was built to gain a deeper understanding of **emulator development, low-level systems, and CPU architecture**.
@@ -200,9 +207,7 @@ https://wiki.libsdl.org/
 
 Subham Das
 
-GitHub:
-
-https://github.com/subhamdas2806
+[![GitHub](https://img.shields.io/badge/GitHub-subhamdas2806-181717?style=flat&logo=github&logoColor=white)](https://github.com/subhamdas2806)
 
 ---
 
